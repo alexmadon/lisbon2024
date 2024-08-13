@@ -1,0 +1,57 @@
+Bonjour Charles,
+
+Ce ticket est toujours de notre coté (Support) et n'est pas encore ave engineering.
+Je veux créer une procédure pas à pas pour reproduire le problème, sinon le triage et la QA va faire des difficultés pour valider le Jira.
+
+
+Je m'approche de faire fonctionner mon application SDK de test (un appel sur l'API de recherche) mais ma configuration avec
+
+client_credentials
+
+ne marche pas.
+
+Elle fait une erreur:
+
+
+2024-07-22T16:32:28.441+02:00  INFO 90326 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-07-22T16:32:28.475+02:00 ERROR 90326 --- [           main] o.s.boot.SpringApplication               : Application run failed
+feign.FeignException$Unauthorized: [401] during [POST] to [http://localhost:8080/alfresco/api/-default-/public/search/versions/1/search] [SearchApiClient#search(SearchRequest)]: []
+
+et du coté Alfresco, j'ai
+
+
+2024-07-22T16:50:35,486 [] DEBUG [web.scripts.TenantWebScriptServlet] [http-nio-127.0.0.1-8080-exec-8] Processing tenant request (POST) http://localhost:8080/alfresco/api/-default-/public/search/versions/1/search
+2024-07-22T16:50:35,487 [] DEBUG [authentication.identityservice.IdentityServiceRemoteUserMapper] [http-nio-127.0.0.1-8080-exec-8] Trying bearer token...
+2024-07-22T16:50:35,487 [] DEBUG [authentication.identityservice.SpringBasedIdentityServiceFacade] [http-nio-127.0.0.1-8080-exec-8] Bearer token outcome: {sub=e5b3a5d8-12dd-4d21-a8f2-1ef4bd42225d, resource_access={account={roles=[manage-account, manage-account-links, view-profile]}}, email_verified=true, clientHost=127.0.0.1, allowed-origins=[*], iss=https://keycloak.example.foo:8443/auth/realms/alfresco, typ=Bearer, preferred_username=service-account-alfresco-sdk, given_name=, clientAddress=127.0.0.1, client_id=alfresco-sdk, aud=[account], realm_access={roles=[default-roles-alfresco, offline_access, uma_authorization]}, azp=alfresco-sdk, scope=email profile, exp=2024-07-22T14:55:35Z, iat=2024-07-22T14:50:35Z, family_name=, jti=4499755b-815a-4b03-aa6b-da748a29f6df, email=service-account-alfresco-sdk@madon.net}
+2024-07-22T16:50:35,512 [] ERROR [authentication.identityservice.IdentityServiceRemoteUserMapper] [http-nio-127.0.0.1-8080-exec-8] Failed to authenticate user using IdentityServiceRemoteUserMapper: class com.nimbusds.openid.connect.sdk.UserInfoErrorResponse cannot be cast to class com.nimbusds.openid.connect.sdk.UserInfoSuccessResponse (com.nimbusds.openid.connect.sdk.UserInfoErrorResponse and com.nimbusds.openid.connect.sdk.UserInfoSuccessResponse are in unnamed module of loader org.apache.catalina.loader.ParallelWebappClassLoader @773cbf4f)
+
+
+C'est bien un service account que tu as créé dans keycloak?
+Je crois qu'il faudrait faire un diff entre ta configuration et ma configuration.
+
+Je te joins
+
+un export de mon client keycloak alfresco-sdk.json du realm alfresco
+mon application.properties du SDK
+et des screenshots de la config du user (service account), je n'ai pas vu comment l'exporter
+
+
+Coté alfresco, j'ai aussi ajouté le service acount 'service-account-alfresco-sdk' comme admin mais sans succès:
+
+identity-service.admin-console.redirect-path                            /alfresco/s/enterprise/admin/admin-systemsummary
+identity-service.auth-server-url                                        https://keycloak.example.foo:8443/auth
+identity-service.authentication.allowGuestLogin                         true
+identity-service.authentication.defaultAdministratorUserNames           admin,service-account-alfresco-sdk
+identity-service.authentication.enable-username-password-authentication true
+identity-service.authentication.enabled                                 true
+identity-service.authentication.validation.failure.silent               false
+identity-service.credentials.secret                                     
+identity-service.public-client                                          true
+identity-service.realm                                                  alfresco
+identity-service.resource                                               alfresco
+
+
+ACS n'arrive pas à interpréter qui est cet utilisateur.
+
+Merci

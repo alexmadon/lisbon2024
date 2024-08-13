@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <parent>
+    <groupId>org.alfresco</groupId>
+    <!-- <artifactId>alfresco-java-sdk-samples</artifactId> -->
+    <artifactId>alfresco-java-sdk-samples</artifactId>
+    <version>6.2.0</version>
+  </parent>
+  <!-- https://artifacts.alfresco.com/nexus/#nexus-search;quick~alfresco-java-sdk-samples -->
+  <!-- NEXUS: amadon + miscrosoft passwd -->
+  
+  <groupId>net.madon</groupId>
+  <artifactId>sdk-alex</artifactId>
+  <version>0.0.1-SNAPSHOT</version> <!-- 0.0.1-SNAPSHOT -->
+  <!-- <packaging>pom</packaging> -->
+  <packaging>jar</packaging>
+  <name>sdk-alex</name>
+  <description>Alex Sample application of the Java SDK</description>
+
+
+  <properties>
+         <java.version>17</java.version>
+  </properties>
+  
+  <dependencies>
+    <!-- https://artifacts.alfresco.com/nexus/#nexus-search;quick~alfresco-java-event-api-spring-boot-starter -->
+    <!--
+    <dependency>
+      <groupId>org.alfresco</groupId>
+      <artifactId>alfresco-java-event-api-spring-boot-starter</artifactId>
+      <version>6.2.0</version>
+    </dependency>
+    -->
+    
+    <!-- https://artifacts.alfresco.com/nexus/#nexus-search;quick~alfresco-acs-java-rest-api-spring-boot-starter -->
+    <dependency>
+      <groupId>org.alfresco</groupId>
+      <artifactId>alfresco-acs-java-rest-api-spring-boot-starter</artifactId>
+      <version>6.2.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- 
+<repositories>
+    <repository>
+      <id>alfresco-public</id>
+      <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+    </repository>
+  
+  </repositories>
+  -->
+  
+</project>
